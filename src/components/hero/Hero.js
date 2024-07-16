@@ -3,6 +3,7 @@ import Carousel from 'react-material-ui-carousel';
 
 const Hero = ({ movies }) => {
     const navigate = useNavigate();
+    console.log('Hero component called with movies: ', movies);
 
     function reviews(movieId) {
         navigate(`/Reviews/${movieId}`);

@@ -7,14 +7,13 @@ import {
     MDBBtn,
 } from 'mdb-react-ui-kit';
 
-function LoginPage() {
+const LoginPage = ({ handleSuccessfullLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
 
-    const handleLogin = async () => {
+    const handleLoginClick = async () => {
         if (!email || !password) {
             setError('Please enter both email and password.');
             return;
@@ -24,14 +23,23 @@ function LoginPage() {
         setError('');
 
         try {
+            console.log('handleLoginClick method called');
+
+            // TODO: USED IT FOR TESTING WITHOUT BACKEND, REMOVE THIS ON LONG TERM
+            // setTimeout(() => {
+            //     console.log('handleLoginClick called');
+            //     localStorage.setItem('authToken', "fakeToken"); // Store token in local storage
+            // }, 1000);
+
             const response = await axios.post('http://localhost:8080/loginWithEmail', { email, password });
-            console.log('Login successful:', response.data);
+            console.log('Login endpoint response:', response.data);
 
             // Assuming the response contains a token
             const { token } = response.data;
             localStorage.setItem('authToken', token); // Store token in local storage
 
-            navigate('/home'); // Navigate to home page after successful login
+            // Send an event to App.js that login was successful and handle rest of the functionality in App.js
+            handleSuccessfullLogin();
         } catch (error) {
             console.error('Login failed:', error.response ? error.response.data : error.message);
             setError(error.response && error.response.data.message ? error.response.data.message : 'Invalid email or password.');
@@ -67,7 +75,7 @@ function LoginPage() {
                     <button 
                         className="mb-4 d-block btn-primary" 
                         style={{ height: '50px', width: '100%' }} 
-                        onClick={handleLogin} 
+                        onClick={handleLoginClick} 
                         disabled={loading}
                         aria-busy={loading}
                     >

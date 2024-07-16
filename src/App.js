@@ -17,11 +17,9 @@ function App() {
   const [movie, setMovie] = useState();
   const [reviews, setReviews] = useState([]);
 
-  const handleLogin = async (formData) => {
+  const handleSuccessfullLogin = () => {
     try {
-      console.log('called');
-      const response = await api.post('/login', formData);
-      console.log('handleLogin: ', response.data);
+      console.log('handleSuccessfullLogin method called');
       setLoggedIn(true);
       getMovies();
     } catch (error) {
@@ -30,11 +28,13 @@ function App() {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('authToken');
     setLoggedIn(false);
   };
 
   const getMovies = async () => {
     try {
+      console.log('getMovies method called');
       const response = await api.get("/api/v1/movies");
       setMovies(response.data);
     } catch (err) {
@@ -60,9 +60,6 @@ function App() {
       getMovies();
     }
 
-    if (loggedIn) {
-      getMovies();
-    }
   }, [loggedIn]);
 
   return (
@@ -82,7 +79,7 @@ function App() {
           </Route>
         ) : (
           <>
-            <Route path="/login" element={<Login handleLogin={handleLogin} />} />
+            <Route path="/login" element={<Login handleSuccessfullLogin={handleSuccessfullLogin} />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<Navigate to="/login" />} />
           </>

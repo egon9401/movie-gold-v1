@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVideoSlash } from '@fortawesome/free-solid-svg-icons';
 
-const Header = ({ loggedIn }) => {
+const Header = ({ loggedIn, handleLogout }) => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container fluid>
@@ -18,22 +18,15 @@ const Header = ({ loggedIn }) => {
           <NavLink className="nav-link" to="/">
             Home
           </NavLink>
-          <NavLink className="nav-link" to="/watchList">
+          <NavLink className="nav-link" to="/watchList" style={{ marginLeft: "16px" }}>
             Watch List
           </NavLink>
           {loggedIn ? (
-            <Button variant="outline-info" className="me-2">
+            <Button variant="outline-info" className="me-2" style={{ marginLeft: "auto" }} onClick={handleLogout}>
               Logout
             </Button>
           ) : (
-            <>
-              <NavLink className="nav-link" to="/login">
-                Login
-              </NavLink>
-              <NavLink className="nav-link" to="/register">
-                Register
-              </NavLink>
-            </>
+            <></>
           )}
         </Navbar.Collapse>
       </Container>
